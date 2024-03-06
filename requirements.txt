@@ -1,4 +1,12 @@
 pandas
 numpy 
 matplotlib
--e .
+scikit-learn
+catboost
+xgboost
+Flask
+scipy
+imblearn
+category_encoders
+statsmodels
+#-e .
