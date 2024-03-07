@@ -77,16 +77,28 @@ class ModelTrainer:
                 
             }
 
-            model_report=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
+            df_score=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
                                              models=models,param=params)
+
+            final_model_report={}
+            for model in df_score.index:
+                train_score = df_score.loc[model,'train_score']
+                test_score = df_score.loc[model,'test_score']
+
+                abs_difference = abs(train_score - test_score)
+
+                if abs_difference <=0.05:
+                    final_model_report[model] = test_score
+
+
             
             ## To get best model score from dict
-            best_model_score = max(sorted(model_report.values()))
+            best_model_score = max(sorted(final_model_report.values()))
 
             ## To get best model name from dict
 
-            best_model_name = list(model_report.keys())[
-                list(model_report.values()).index(best_model_score)
+            best_model_name = list(final_model_report.keys())[
+                list(final_model_report.values()).index(best_model_score)
             ]
             best_model = models[best_model_name]
 
@@ -99,12 +111,13 @@ class ModelTrainer:
                 obj=best_model
             )
 
-            predicted=best_model.predict(X_test)
+            test_predicted=best_model.predict(X_test)
+            train_predicted=best_model.predict(X_train)
 
-            f1 = f1_score(y_test, predicted)
-            print(best_model_name)
-            print(f1)
-            return f1
+            f1_test = f1_score(y_test, test_predicted)
+            f1_train = f1_score(y_train, train_predicted)
+           
+            return f1_test
             
 
 
