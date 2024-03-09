@@ -1,4 +1,4 @@
-Age,City,Income,Joining Designation,Grade,Total Business Value,Quarterly Rating,quarterly_rating_imp,income_imp,monthofjoining,Target
+Age,City,Income,Joining_Designation,Grade,Total_Business_Value,Quarterly_Rating,quarterly_rating_imp,income_imp,monthofjoining,Target
 36.0,C5,59481,2,2,0,1,0,0,11,0
 27.0,C19,77369,1,3,1445310,1,0,0,4,1
 29.0,C1,56985,2,2,0,1,0,0,11,0

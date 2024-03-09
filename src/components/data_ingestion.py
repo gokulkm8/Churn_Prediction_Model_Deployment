@@ -13,6 +13,7 @@ from src.components.data_transformation import DataTransformationConfig
 
 from src.components.model_trainer import ModelTrainerConfig
 from src.components.model_trainer import ModelTrainer
+
 @dataclass
 class DataIngestionConfig:
     train_data_path = os.path.join('artifacts',"train.csv")
@@ -23,57 +24,10 @@ class DataIngestion:
     def __init__(self):
         self.ingestion_config=DataIngestionConfig()
 
-    def feature_engg(self):
-
-        df=pd.read_csv('data\data.csv')
-        df.drop(['Unnamed: 0'],axis=1,inplace=True)
-        df['MMM-YY']=pd.to_datetime(df['MMM-YY'])
-        df['Dateofjoining']=pd.to_datetime(df['Dateofjoining'])
-        df['LastWorkingDate']=pd.to_datetime(df['LastWorkingDate'])
-        df['Joining Designation']=df['Joining Designation'].astype('object')
-        df['Grade']=df['Grade'].astype('object')
-
-        df_temp = df.groupby('Driver_ID')['Quarterly Rating'].agg(['first','last']).reset_index()
-
-        df_temp['imp']=np.where(df_temp['last']>df_temp['first'],1,0)
-
-        ids = df_temp[df_temp['imp']==1]['Driver_ID']
-
-        df['quarterly_rating_imp']=0
-
-        df.loc[df['Driver_ID'].isin(ids),'quarterly_rating_imp']=1
-
-        df_temp = df.groupby('Driver_ID')['Income'].agg(['first','last']).reset_index()
-
-        df_temp['imp']=np.where(df_temp['last']>df_temp['first'],1,0)
-
-        ids = df_temp[df_temp['imp']==1]['Driver_ID']
-
-        df['income_imp']=0
-
-        df.loc[df['Driver_ID'].isin(ids),'income_imp']=1
-
-        dictionary = {'MMM-YY':'max','Age':'max','Gender':'last','City':'last','Education_Level':'last',
-             'Income':'last','Dateofjoining':'last','LastWorkingDate':'last','Joining Designation':'last',
-             'Grade':'last','Total Business Value':'sum','Quarterly Rating':'last','quarterly_rating_imp':'last',
-             'income_imp':'last'}
-
-        df_grouped = df.groupby('Driver_ID').aggregate(dictionary).reset_index()
-
-        df_grouped['monthofjoining'] = df_grouped['Dateofjoining'].dt.month
-
-        df_grouped['Target'] = np.where(df_grouped['LastWorkingDate'].isnull(),0,1)
-        
-        df_grouped.drop(['Driver_ID','MMM-YY','Gender','Education_Level','Dateofjoining',
-                        'LastWorkingDate'],axis=1,inplace=True)
-
-        return df_grouped
-
-
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df=self.feature_engg()
+            df=DataTransformation().feature_engg(data_file_path='data\data.csv')
 
             logging.info('Read the dataset as dataframe')
 

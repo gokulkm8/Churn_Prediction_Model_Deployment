@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction Form</title>
+
+    <!-- Add Bootstrap CSS (assumes Bootstrap is available) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .login {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .login h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        .login form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mb-3 {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-top: 20px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="login">
+   
+       <form action="{{ url_for('predict_data')}}" method="post">
+        <h1>
+            <legend>CHURN PREDICTION</legend>
+        </h1>
+        <div class="mb-3">
+            <label class="form-label">Reporting Date in DD/MM/YY</label>
+            <input class="form-control" name="MMM_YY" type="date"
+                placeholder="DD/MM/YY">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Driver ID</label>
+            <input class="form-control" name="Driver_ID"
+                placeholder="Enter Driver ID" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Age</label>
+            <input class="form-control" name="Age"
+                placeholder="Enter the Age" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Gender</label>
+            <select class="form-control" name="ethnicity" placeholder="Enter your Gender" required>
+                <option class="placeholder" selected disabled value="">Select Gender</option>
+                <option value="0">
+                    Male
+                </option>
+                <option value="1">
+                    Female
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">City : C1 - C29</label>
+            <input class="form-control" name="City"
+                placeholder="Enter the City" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Education_Level</label>
+            <select class="form-control" name="Education_Level"
+                placeholder="Enter you Parent Education" required>
+                <option class="placeholder" selected disabled value="">Select Education Level</option>
+                <option value="0">
+                    10th
+                </option>
+                <option value="1">
+                    12th
+                </option>
+                <option value="2">
+                    Graduate
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Income</label>
+            <input class="form-control" name="Income"
+                placeholder="Enter monthly income" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date of joining</label>
+            <input class="form-control" name="Dateofjoining" type="date"
+                placeholder="Enter date of joining" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Last Working date (Leave blank if cuurently working)</label>
+            <input class="form-control" name="LastWorkingDate" type="date"
+                placeholder="Enter date of last working day" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Joining_Designation</label>
+            <select class="form-control" name="Joining_Designation" placeholder="Enter your joining designation level" required>
+                <option class="placeholder" selected disabled value="">Select joining designation level</option>
+                <option value="1">
+                    1
+                </option>
+                <option value="2">
+                    2
+                </option>
+                <option value="3">
+                    3
+                </option>
+                <option value="4">
+                    4
+                </option>
+                <option value="5">
+                    5
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Grade</label>
+            <select class="form-control" name="Grade" placeholder="Enter your grade level" required>
+                <option class="placeholder" selected disabled value="">Select grade level</option>
+                <option value="1">
+                    1
+                </option>
+                <option value="2">
+                    2
+                </option>
+                <option value="3">
+                    3
+                </option>
+                <option value="4">
+                    4
+                </option>
+                <option value="5">
+                    5
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Total business value acquired by the driver in a month</label>
+            <input class="form-control" name="Total_Business_Value"
+                placeholder="Enter total business value" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Quarterly_Rating : 1 - 5</label>
+            <select class="form-control" name="Quarterly_Rating" placeholder="Enter quarterly rating" required>
+                <option class="placeholder" selected disabled value="">Select quarterly rating</option>
+                <option value="1">
+                    1
+                </option>
+                <option value="2">
+                    2
+                </option>
+                <option value="3">
+                    3
+                </option>
+                <option value="4">
+                    4
+                </option>
+                <option value="5">
+                    5
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <input class="btn btn-primary" type="submit" value="Predict" required />
+        </div>
+    </form>
+    <h2>
+       {{results}}
+    </h2>
+   <body>
+</html>
+
+
