@@ -1,0 +1,11 @@
+Age
+City
+Income
+Joining_Designation
+Grade
+Total_Business_Value
+Quarterly_Rating
+quarterly_rating_imp
+income_imp
+monthofjoining
+Target

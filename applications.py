@@ -34,9 +34,10 @@ def predict_data():
             Total_Business_Value = request.form.get('Total_Business_Value'),
             Quarterly_Rating = request.form.get('Quarterly_Rating'),
         )
-        pred_df_path = data.get_data_as_data_frame()
-        results = PredictPipeline().predict(pred_df_path) 
-        data_with_pred = pd.read_csv(pred_df_path)
+        #Get the path of new data for prediction
+        pred_csv_path = data.get_data_as_csv_path()
+        results = PredictPipeline().predict(pred_csv_path) 
+        data_with_pred = pd.read_csv(pred_csv_path)
         data_with_pred['Target'] = results[0]
         data_collection = pd.read_csv(r'new_data_artifacts\new_data_collection.csv')
         pd.concat([data_collection,data_with_pred]).to_csv(r'new_data_artifacts\new_data_collection.csv',index=False)

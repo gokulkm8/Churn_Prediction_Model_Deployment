@@ -4,6 +4,7 @@ import pandas as pd
 from src.exception import CustomException
 from src.utils import load_object
 from src.components.data_transformation import DataTransformation
+from src.components.data_feature_engg import FeatureEngineering
 from dataclasses import dataclass
 
 @dataclass
@@ -14,7 +15,7 @@ class PredictPipeline:
     def __init__(self):
         self.data_path = PredictPipelineConfig()
 
-    def predict(self,features):
+    def predict(self,new_data_file_path):
         try:
             model_path=os.path.join("artifacts","model.pkl")
             preprocessor_path=os.path.join('artifacts','preprocessor.pkl')
@@ -22,7 +23,7 @@ class PredictPipeline:
             model=load_object(file_path=model_path)
             preprocessor=load_object(file_path=preprocessor_path)
             print("After Loading")
-            feature_engg_data=DataTransformation().feature_engg(features)
+            feature_engg_data=FeatureEngineering().feature_engg(new_data_file_path)
             data_scaled=preprocessor.transform(feature_engg_data)
             preds=model.predict(data_scaled)
             return preds
@@ -62,7 +63,7 @@ class CustomData:
         self.Total_Business_Value = Total_Business_Value
         self.Quarterly_Rating = Quarterly_Rating
 
-    def get_data_as_data_frame(self):
+    def get_data_as_csv_path(self):
         try:
             custom_data_input_dict = {
                 "MMM_YY" : [self.MMM_YY],

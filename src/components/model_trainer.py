@@ -117,7 +117,7 @@ class ModelTrainer:
             f1_test = f1_score(y_test, test_predicted)
             f1_train = f1_score(y_train, train_predicted)
            
-            return f1_test
+            return (best_model_name,f1_test)
             
 
 

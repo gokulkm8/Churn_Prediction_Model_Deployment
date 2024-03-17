@@ -5,11 +5,16 @@ import pandas as pd
 import numpy as np
 from src.exception import CustomException
 from src.logger import logging
-    
+from dataclasses import dataclass
+
+@dataclass
+class FeatureEngineeringConfig:
+    cols_to_retain_file_path = os.path.join("new_data_artifacts","cols_to_retain.txt")    
+
 class FeatureEngineering:
 
     def __init__(self):
-        pass
+        self.cols_to_retain = FeatureEngineeringConfig()
 
     def feature_extraction(self,df):
 
@@ -30,8 +35,7 @@ class FeatureEngineering:
                     numerical_columns.append(i)
                 else:
                     categorical_columns.append(i)
-            print(numerical_columns)
-            print(categorical_columns)
+
             # Hypothesis testing ( t-test ) to check statistical significance of numerical columns
             # on predicting the target feature
 
@@ -125,7 +129,27 @@ class FeatureEngineering:
             
             df_grouped.drop(['Driver_ID','MMM_YY','Dateofjoining','LastWorkingDate'],axis=1,inplace=True)
             
-            df_grouped = self.feature_extraction(df_grouped)
+            if df_grouped.shape[0]>2:
+
+                df_grouped = self.feature_extraction(df_grouped)
+   
+                file_path = self.cols_to_retain.cols_to_retain_file_path
+
+                final_columns = df_grouped.columns
+
+                with open(file_path,'w') as file:
+                    for col in final_columns:
+                        file.write(col + '\n')
+
+            else:
+                cols_to_retain=[]
+                file_path = self.cols_to_retain.cols_to_retain_file_path
+                with open(file_path,'r') as file:
+                    for line in file.readlines():
+                        cols_to_retain.append(line.strip())
+                
+                df_grouped = df_grouped[cols_to_retain]
+
 
             logging.info("Feature engineering completed")
 
