@@ -8,6 +8,8 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+from src.components.data_feature_engg import FeatureEngineering
+
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 
@@ -27,7 +29,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df=DataTransformation().feature_engg(data_file_path='data\data.csv')
+            df=FeatureEngineering().feature_engg(data_file_path='data\data.csv')
 
             logging.info('Read the dataset as dataframe')
 
@@ -50,7 +52,7 @@ class DataIngestion:
 
             )
         except Exception as e:
-            raise CustomException(e)
+            raise CustomException(e,sys)
         
 if __name__=="__main__":
     obj=DataIngestion()
