@@ -13,9 +13,9 @@ def get_requirements(filepath):
 
     return requirements
 
-setup(name='Credit_Risk_Analysis',
+setup(name='Churn Prediction',
       version='0.0.1',
-      description="Machine Learning project to identify loan defaulters",
+      description="Machine Learning project for churn prediction in a ride sharing company",
       author="Gokul Muraleedharan",
       author_email="gokulkm8@gmail.com",
       packages=find_packages(),
